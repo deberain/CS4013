@@ -73,6 +73,10 @@ public class Property {
         return taxDue*penaltyRate; //apply penalty if applicable
     }
 
+    public double getBalance() {
+        return taxDue;
+    }
+
     public String format() {
         return address + ", " + eircode;
     }
