@@ -1,4 +1,6 @@
-{
+import java.util.ArrayList;
+
+public class PropertyOwner {
     private String name;
     private Address address;
     private String eircode;
@@ -19,6 +21,14 @@
         this.address = address;
         this.eircode = eircode;
     }
+    
+    public PropertyOwner(String name, String[] address, String eircode) {
+        properties = new ArrayList<>();
+        payments = new ArrayList<>();
+        this.name = name;
+        this.address = new Address(address[0], address[1], address[2]);
+        this.eircode = eircode;
+    }
 
     public void registerProperty(Property property) {
         properties.add(property);
@@ -29,9 +39,17 @@
         payments.add(new Payment(this, property, year, amount, taxDue));
         property.addPayment(this, year, amount);
     }
+    
 
-    public void displayProprties() {
-
+    public ArrayList<Property> displayProperties() {
+    	ArrayList<Property> propsWithTaxToPay= new ArrayList<Property>();
+    	for(Property prop:properties) {
+    		prop.calculateTax();
+    		if(prop.getBalance() > 0) {
+    			propsWithTaxToPay.add(prop);
+    		}
+    	}
+    	return propsWithTaxToPay;
     }
 
     public double getBalance(int year) {
@@ -78,4 +96,31 @@
     public String format() {
         return name + ", " + address + ", " + eircode;
     }
+    
+    public String getEircode() {
+    	return this.eircode;
+    }
+    
+    public Address getAddress() {
+    	return this.address;
+    }
+    
+    @Override
+    public boolean equals(Object other) {
+    	PropertyOwner otherOwner = (PropertyOwner) other;
+    	if(this.name.contentEquals(otherOwner.name)&&this.eircode.contentEquals(otherOwner.eircode)&&this.address.equals(otherOwner.address)) {
+    		return true;
+    	}else {
+    		return false;
+    	}
+    }
+    
+    public String propsAndTaxFormated() {
+    	String returnVal = "";
+    	for(Property prop : properties) {
+    		returnVal = returnVal.concat(prop.toString()+": "+prop.getBalance()+"\n"); 
+    	}
+    	return returnVal;
+    }
+
 }
