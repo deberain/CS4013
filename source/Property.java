@@ -25,6 +25,16 @@ public class Property {
         this.locationCategory = locationCategory;
         this.principlePrivateResidence = principlePrivateResidence;
     }
+    
+    public Property(PropertyOwner owner, String addr[], String eircode, double estMarketValue, String locationCategory, boolean principlePrivateResidence) {
+        payments = new ArrayList<>();
+        this.owner = owner;
+        this.address = new Address(addr[0], addr[1], addr[2]);
+        this.eircode = eircode;
+        this.estMarketValue = estMarketValue;
+        this.locationCategory = locationCategory;
+        this.principlePrivateResidence = principlePrivateResidence;
+    }
 
     public double calculateTax() {
         //if there is tax unpaid, note the amount in taxOverdue and increase the penalty rate by 0.07
@@ -92,5 +102,10 @@ public class Property {
 
     public ArrayList<Payment> getPayments() {
         return payments;
+    }
+    
+    @Override
+    public String toString() {
+    	return "Address: "+address.toString()+", "+this.eircode;
     }
 }
