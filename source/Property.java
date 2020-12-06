@@ -93,4 +93,9 @@ public class Property {
     public ArrayList<Payment> getPayments() {
         return payments;
     }
+    
+    @Override
+    public String toString() {
+    	return "Address: "+address.toString()+", "+this.eircode;
+    }
 }
