@@ -6,12 +6,14 @@ public class PropertyOwner {
     private String eircode;
     private ArrayList<Property> properties;
     private ArrayList<Payment> payments;
-    private double taxDue;
-    private double taxOverdue;
+    private double taxDue;//totalTaxDue
+    private double taxOverdue;//totalTaxOverdue
+    private ArrayList<Tax> ownerTaxPerProperty;
 
     public PropertyOwner() {
         properties = new ArrayList<>();
         payments = new ArrayList<>();
+        ownerTaxPerProperty = new ArrayList<>();
     }
 
     public PropertyOwner(String name, Address address, String eircode) {
@@ -20,26 +22,27 @@ public class PropertyOwner {
         this.name = name;
         this.address = address;
         this.eircode = eircode;
-    }
-    
-    public PropertyOwner(String name, String[] address, String eircode) {
-        properties = new ArrayList<>();
-        payments = new ArrayList<>();
-        this.name = name;
-        this.address = new Address(address[0], address[1], address[2]);
-        this.eircode = eircode;
+        ownerTaxPerProperty = new ArrayList<>();
     }
 
+
     public void registerProperty(Property property) {
-        properties.add(property);
+        property.calculateTax();
+    	properties.add(property);
+        ownerTaxPerProperty.add(new Tax(this, property, property.getBalance()));   
     }
 
     public void payTax(double amount, Property property, int year) {
         taxDue -= amount;
         payments.add(new Payment(this, property, year, amount, taxDue));
         property.addPayment(this, year, amount);
+        for(Tax tax:ownerTaxPerProperty) {
+        	if(tax.getYearDue()==year) {
+        		ownerTaxPerProperty.remove(tax);
+        	}
+        }
     }
-    
+
 
     public ArrayList<Property> displayProperties() {
     	ArrayList<Property> propsWithTaxToPay= new ArrayList<Property>();
@@ -108,11 +111,7 @@ public class PropertyOwner {
     @Override
     public boolean equals(Object other) {
     	PropertyOwner otherOwner = (PropertyOwner) other;
-    	if(this.name.contentEquals(otherOwner.name)&&this.eircode.contentEquals(otherOwner.eircode)&&this.address.equals(otherOwner.address)) {
-    		return true;
-    	}else {
-    		return false;
-    	}
+        return this.name.contentEquals(otherOwner.name) && this.eircode.contentEquals(otherOwner.eircode) && this.address.equals(otherOwner.address);
     }
     
     public String propsAndTaxFormated() {
@@ -123,4 +122,9 @@ public class PropertyOwner {
     	return returnVal;
     }
 
+    /*public int getTaxYearDue(Property prop) {
+    	int taxIndex = properties.indexOf(prop);
+    	int yearTaxDue = ownerTaxPerProperty.get(taxIndex).getYearDue();
+    	return yearTaxDue;
+    }*/
 }
