@@ -7,9 +7,9 @@ public class PropertyOwnersList {
     public PropertyOwnersList() {
         owners = new ArrayList<>();
     }
-    
-    public void registerOwner(String street, Address address, String eircode) {
-        owners.add(new PropertyOwner(street, address, eircode));
+
+    public void registerOwner(PropertyOwner owner) {
+    	owners.add(owner);
     }
     
     public void registerProperty(PropertyOwner owner, Address address, String eircode, double estMarketValue,String locationCategory, boolean principlePrivateResidence) {
@@ -18,6 +18,11 @@ public class PropertyOwnersList {
                 propowner.registerProperty(new Property(propowner, address, eircode, estMarketValue, locationCategory, principlePrivateResidence));
             }
         }
+    }
+
+    
+    public void registerProperty(PropertyOwner owner, Property prop) {
+    	owners.get(owners.indexOf(owner)).registerProperty(prop);
     }
     
     public ArrayList<Property> getProperties(PropertyOwner owner) {
@@ -50,4 +55,15 @@ public class PropertyOwnersList {
         }
 
     }
+    
+    public PropertyOwner getPropOwner(String name, Address address, String eircode) {
+    	PropertyOwner returnVal = null;
+    	for(PropertyOwner ownerOfP:owners) {
+    		if(ownerOfP.getName().contentEquals(name)&&ownerOfP.getEircode().contentEquals(eircode)&&ownerOfP.getAddress().equals(address)) {
+    			returnVal = ownerOfP;
+    		}
+    	}
+    	return returnVal;
+    }
+
 }
