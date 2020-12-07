@@ -31,4 +31,10 @@ public class Tax {
 	public void setYearDue(int yearDue) {
 		this.yearDue = yearDue;
 	}
+	
+	public Property getProperty() {
+		return this.prop;
+	}
 }
+
+
