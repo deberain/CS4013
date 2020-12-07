@@ -122,9 +122,14 @@ public class PropertyOwner {
     	return returnVal;
     }
 
-    /*public int getTaxYearDue(Property prop) {
-    	int taxIndex = properties.indexOf(prop);
-    	int yearTaxDue = ownerTaxPerProperty.get(taxIndex).getYearDue();
-    	return yearTaxDue;
-    }*/
+    public ArrayList<Integer> getTaxYearDue(Property prop) {
+    	ArrayList<Integer> yearsDue = new ArrayList<Integer>();
+    	for(Tax tax:ownerTaxPerProperty) {
+    		if(tax.getProperty() == prop) {
+    			yearsDue.add(tax.getYearDue());
+    		}
+    	}
+    	return yearsDue;
+    }
+}
 }
