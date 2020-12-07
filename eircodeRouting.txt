@@ -1,0 +1,210 @@
+A41, Ballyboughal			
+A42, Garristown			
+A45, Oldtown			
+A63, Greystones			
+A67, Wicklow			
+A75, Castleblayney			
+A81, Carrickmacross			
+A82, Kells	
+A82, Kingscourt	
+A82, Virginia	
+A83, Enfield	
+A83, Summerhill	 
+A82, Rathmoylon	
+A84, Ashbourne			
+A85, Dunshaughlin			
+A86, Dunboyne			
+A91, Dundalk			
+A92, Drogheda	
+A92, Ardee	 
+A92, Dunleer	
+A94, Blackrock	
+A94, Monkstown	
+A94, Booterstown
+A94, Stillorgan
+A96, Dun Laoghaire
+A96, Dalkey	
+A96, Sallynoggin	
+A96, Glenageary
+A98, Bray	
+A98, Kilmacanogue	 
+A98, Roundwood	
+C15, Trim	
+C15, Navan	
+C15, Athboy	
+D01, Dublin 1			
+D02, Dublin 2			
+D03, Dublin 3			
+D04, Dublin 4			
+D05, Dublin 5			
+D06, Dublin 6			
+D6W, Dublin 6W			
+D07, Dublin 7			
+D08, Dublin 8			
+D09, Dublin 9			
+D10, Dublin 10			
+D11, Dublin 11			
+D12, Dublin 12			
+D13, Dublin 13			
+D14, Dublin 14			
+D15, Dublin 15			
+D16, Dublin 16			
+D17, Dublin 17			
+D18, Dublin 18			
+D20, Dublin 20			
+D22, Dublin 22			
+D24, Dublin 24			
+E21, Cahir			
+E25, Cashel			
+E32, Carrick on Suir			
+E34, Tipperary			
+E41, Thurles	
+E41, Templemore		
+E45, Nenagh			
+E53, Roscrea			
+E91, Clonmel	
+E91, Fethard		
+F12, Knock	
+F12, Swinford	
+F12, Claremorris	
+F23, Castlebar			
+F26, Ballina	
+F26, Bangor		
+F28, Westport	
+F28, Achill		
+F31, Ballinrobe			
+F35, Ballyhaunis			
+F42, Roscommon			
+F45, Castlerea	
+F45, Glenamaddy		
+F52, Boyle			
+F56, Ballymote			
+F91, Sligo	
+F91, Manorhamilton	
+F91, Tubbercurry	
+F92, Letterkenny			
+F93, Lifford	
+F93, Carndonagh		
+F94, Bundoran	
+F94, Donegal		
+H12, Cavan			
+H14, Belturbet			
+H16, Cootehill			
+H18, Monaghan			
+H23, Clones			
+H53, Ballinasloe	
+H53, Portumna		
+H54, Tuam			
+H62, Loughrea			
+H65, Athenry			
+H71, Clifden			
+H91, Galway	
+H91, Spiddal	
+H91, Headford	
+H91, Ballyvaughan
+K32, Balbriggan			
+K34, Skerries			
+K36, Malahide	
+K36, Donabate		
+K45, Lusk			
+K56, Rush			
+K67, Swords			
+K78, Lucan			
+N37, Athlone	
+N37, Moate		
+N39, Longford	
+N39, Ballymahon	
+N39, Granard	
+N39, Lanesborough
+N41, Carrick On Shannon			
+N91, Mullingar	
+N91, Kinnegad		
+P12. Macroom			
+P14, Crookstown			
+P17, Kinsale			
+P24, Cobh			
+P25, Midleton			
+P31, Ballincollig			
+P32, Rylane			
+P36, Youghal			
+P43, Carrigaline			
+P47, Dunmanway			
+P51, Mallow	 
+P51, Rathmore	 
+P51, Cappoquin	
+P56, Charleville			
+P61, Fermoy	 
+P61, Rathcormac		
+P67, Mitchelstown			
+P72, Bandon			
+P75, Bantry	
+P75, Glengarriff		
+P81, Skibbereen	
+P81, Baltimore		
+P85, Clonakilty	
+P85, Rosscarbery		
+R14, Athy			
+R21, Bagenalstown			
+R32, Portlaoise	
+R32, Abbeyleix	
+R32, Portarlington	
+R35, Tullamore	
+R35, Walsh Island, Offaly		
+R42, Birr	
+R42, Banagher		
+R45, Edenderry			
+R51, Kildare			
+R56, Curragh			
+R93, Carlow	
+R93, Tullow		
+R95, Kilkenny	
+R95, Graiguenamanagh	
+R95, Thomastown	
+T12, Cork city southside	
+T12, Mahon	 
+T12, Passage West	
+T23, Cork city northside	
+T23, Hollyhill		
+T34, Carrignavar			
+T45, Glanmire	 
+T45, Carrigtwohill		
+T56, Watergrasshill			
+V14, Shannon			
+V15, Kilrush	
+V15, Kilkee		
+V23, Caherciveen			
+V31, Listowel			
+V35, Kilmallock			
+V42, Newcastle West			
+V92, Tralee	
+V92, Dingle		
+V93, Kenmare	
+V93, Killarney		
+V94, Limerick	
+V94, Abbeyfeale	 
+V94, Newport	 
+V94, Killaloe-Ballina
+V95, Miltown Malbay	
+V95, Ennis	 
+V95, Kildysart	
+W12, Newbridge			
+W23, Maynooth	
+W23, Celbridge	
+W23, Leixlip	
+W34, Monasterevin			
+W91, Naas	
+W91, Blessington		
+X35, Dungarvan			
+X42, Kilmacthomas	
+X42, Bunmahon		
+X91, Waterford	
+X91, Dunmore East	
+X91, Tramore	
+Y14, Arklow			
+Y21, Enniscorthy	
+Y21, Bunclody		
+Y25, Gorey			
+Y34, New Ross	
+Y34, Fethard On Sea		
+Y35, Wexford	
+Y35, Rosslare
