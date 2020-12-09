@@ -1,0 +1,135 @@
+package application;
+	
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
+import javafx.geometry.Side;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+
+
+public class Main extends Application {
+	
+	
+	@Override
+	public void start(Stage primaryStage) {
+		
+		BorderPane pane = new BorderPane();
+
+	    // Place nodes in the pane
+	    pane.setTop(new LogoPaneAndTitle()); 
+	    pane.setLeft(new SideMenu());
+	    pane.setCenter(new MainPane("//Put main page content here")); 
+	    
+	    // Create a scene and place it in the stage
+	    Rectangle2D r = Screen.getPrimary().getBounds();
+	    Scene scene = new Scene(pane, r.getWidth()-200, r.getHeight()-200);
+	    primaryStage.setTitle("Owner Dashboard"); // Set the stage title
+	    primaryStage.setScene(scene); // Place the scene in the stage
+	    primaryStage.show(); // Display the stage
+	  }
+	} 
+
+	
+	class MainPane extends StackPane {
+	  public MainPane(String title) {
+	    getChildren().add(new Label(title));
+	    setPadding(new Insets(11.5, 12.5, 13.5, 14.5));
+	    setStyle("-fx-background-color: #E0EEE0");
+	  }
+		
+	}	
+		
+		
+	class SideMenu extends VBox{
+		public SideMenu() {
+		
+		
+		
+		
+		
+		setStyle("-fx-background-color: #C0D9AF");	
+			
+		Button regProp = new Button("Register Property");
+		regProp.setPrefWidth(200);
+		regProp.setAlignment(Pos.CENTER_LEFT);
+		regProp.setStyle("-fx-font-weight: bold;");
+		
+		Button payTax = new Button("Pay Tax");
+		payTax.setPrefWidth(200);
+		payTax.setAlignment(Pos.CENTER_LEFT);
+		payTax.setStyle("-fx-font-weight: bold;");
+		
+		Button viewDueTax = new Button("View Tax Due");
+		viewDueTax.setPrefWidth(200);
+		viewDueTax.setAlignment(Pos.CENTER_LEFT);
+		viewDueTax.setStyle("-fx-font-weight: bold;");
+		
+		Button paymentsMade = new Button("Payments Made");
+		paymentsMade.setPrefWidth(200);
+		paymentsMade.setAlignment(Pos.CENTER_LEFT);
+		paymentsMade.setStyle("-fx-font-weight: bold;");
+		
+		MenuButton pastStat = new MenuButton("View Past Statements");
+	    pastStat.setPrefWidth(200);
+	    pastStat.setPopupSide(Side.RIGHT);
+	    pastStat.getItems().addAll(new MenuItem("By Year"), new MenuItem("By Property"));
+	    pastStat.setStyle("-fx-font-weight: bold;");
+		
+		Button quit = new Button("Quit");
+		quit.setPrefWidth(200);
+		quit.setAlignment(Pos.CENTER_LEFT);
+		quit.setStyle("-fx-font-weight: bold;");
+		
+		getChildren().addAll(regProp, payTax, viewDueTax, paymentsMade, pastStat, quit);
+		
+		} 
+	}
+	
+	class LogoPaneAndTitle extends HBox{
+		public LogoPaneAndTitle() {
+		
+			FileInputStream input=null;
+			try {
+				input = new FileInputStream("resources/logo.png");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			Image image = new Image(input);
+			ImageView imageView = new ImageView(image);
+			imageView.setFitHeight(100);
+			imageView.setFitWidth(225);
+			
+			Text heading = new Text("Owner Dashboard");
+			heading.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 35));
+			heading.setTextAlignment(TextAlignment.CENTER);
+			heading.setTranslateY(25);
+			heading.setFill(Color.DARKOLIVEGREEN);
+			setStyle("-fx-background-color: #C0D9AF");
+			setSpacing(400);
+			getChildren().addAll(imageView, heading);
+
+	    
+		} 
+	}
+
