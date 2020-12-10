@@ -49,7 +49,7 @@ public class ManagementDashboard extends Application {
 	    // Create a scene and place it in the stage
 	    Rectangle2D r = Screen.getPrimary().getBounds();
 	    Scene scene = new Scene(pane, r.getWidth()-200, r.getHeight()-200);
-	    primaryStage.setTitle("Owner Dashboard"); // Set the stage title
+	    primaryStage.setTitle("Management Dashboard"); // Set the stage title
 	    primaryStage.setScene(scene); // Place the scene in the stage
 	    primaryStage.show(); // Display the stage
 	  }
