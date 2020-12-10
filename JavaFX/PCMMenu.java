@@ -58,6 +58,8 @@ public class PCMMenu extends Application {
 		text.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
 		Button b1 = new Button("Owner");
 		Button b2 = new Button("Management");
+		b1.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
+		b2.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
 		b1.setPrefHeight(60);
 		b1.setPrefWidth(300);
 		b2.setPrefHeight(60);
