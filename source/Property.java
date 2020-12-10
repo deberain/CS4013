@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Property {
@@ -7,17 +8,20 @@ public class Property {
     private double estMarketValue;
     private String locationCategory;
     private boolean principlePrivateResidence;
-    private double taxDue = 0;
+    private double exTaxDue = 0;
     private double taxOverdue = 0; //tax overdue from previous year. Included in taxDue when calculating tax
     private double penaltyRate = 1.00;
     private ArrayList<Payment> payments;
+    private ArrayList<Tax> taxes;
 
     public Property() {
         payments = new ArrayList<>();
+        taxes = new ArrayList<>();
     }
 
     public Property(PropertyOwner owner, Address address, String eircode, double estMarketValue, String locationCategory, boolean principlePrivateResidence) {
         payments = new ArrayList<>();
+        taxes = new ArrayList<>();
         this.owner = owner;
         this.address = address;
         this.eircode = eircode;
@@ -26,55 +30,111 @@ public class Property {
         this.principlePrivateResidence = principlePrivateResidence;
     }
 
-    public double calculateTax() {
-        //if there is tax unpaid, note the amount in taxOverdue and increase the penalty rate by 0.07
-        if (taxDue > 0) {
-            taxOverdue = taxDue;
-            taxDue = 0;
-            penaltyRate += 0.07;
-        } else {
-            penaltyRate = 1.00;
-            taxOverdue = 0;
-        }
+    public Property(double estMarketValue, String locationCategory, boolean principlePrivateResidence) {
+        payments = new ArrayList<>();
+        taxes = new ArrayList<>();
+        this.estMarketValue = estMarketValue;
+        this.locationCategory = locationCategory;
+        this.principlePrivateResidence = principlePrivateResidence;
+    }
 
+    public double calculateTax() {
         //flat charge
-        taxDue += 100;
+        exTaxDue = 100;
 
         //tax on property value
         if (estMarketValue >= 150000 && estMarketValue <= 400000) {
-            taxDue += (estMarketValue*0.01);
+            exTaxDue += (estMarketValue*0.01);
         } else if (estMarketValue <= 650000) {
-            taxDue += (estMarketValue*0.02);
+            exTaxDue += (estMarketValue*0.02);
         } else if (estMarketValue > 650000) {
-            taxDue += (estMarketValue*0.04);
+            exTaxDue += (estMarketValue*0.04);
         }
 
         //location category tax
-        if (locationCategory.equals("City")) {
-            taxDue += 100;
+        if (locationCategory.equalsIgnoreCase("City")) {
+            exTaxDue += 100;
         } else if (locationCategory.equalsIgnoreCase("Large town")) {
-            taxDue += 80;
+            exTaxDue += 80;
         } else if (locationCategory.equalsIgnoreCase("Small town")) {
-            taxDue += 60;
+            exTaxDue += 60;
         } else if (locationCategory.equalsIgnoreCase("Village")) {
-            taxDue += 50;
+            exTaxDue += 50;
         } else {
-            taxDue += 20;
+            exTaxDue += 20;
         }
 
         //Not principle private residence charge
         if (!principlePrivateResidence) {
-            taxDue += 100;
+            exTaxDue += 100;
         }
 
-        //Add the overdue tax from previous year, if any, to newly calculated tax
-        taxDue += taxOverdue;
+        //Add a new Tax with the amount calculated
+        taxes.add(new Tax(this.owner, this, exTaxDue));
 
-        return taxDue*penaltyRate; //apply penalty if applicable
+        return exTaxDue;
+    }
+
+    public double calculateTax(double flatCharge, double rateBetween150000And400000, double rateBetween400000And650000, double rateAbove650000,
+                               double cityTax, double largeTownTax, double smallTownTax, double villageTax, double countrysideTax,
+                               double pprTax
+    ) {
+        //flat charge
+        double exTaxDue = flatCharge;
+
+        //tax on property value
+        if (estMarketValue >= 150000 && estMarketValue <= 400000) {
+            exTaxDue += (estMarketValue*rateBetween150000And400000);
+        } else if (estMarketValue <= 650000) {
+            exTaxDue += (estMarketValue*rateBetween400000And650000);
+        } else if (estMarketValue > 650000) {
+            exTaxDue += (estMarketValue*rateAbove650000);
+        }
+
+        //location category tax
+        if (locationCategory.equalsIgnoreCase("City")) {
+            exTaxDue += cityTax;
+        } else if (locationCategory.equalsIgnoreCase("Large town")) {
+            exTaxDue += largeTownTax;
+        } else if (locationCategory.equalsIgnoreCase("Small town")) {
+            exTaxDue += smallTownTax;
+        } else if (locationCategory.equalsIgnoreCase("Village")) {
+            exTaxDue += villageTax;
+        } else {
+            exTaxDue += countrysideTax;
+        }
+
+        //Not principle private residence charge
+        if (!principlePrivateResidence) {
+            exTaxDue += pprTax;
+        }
+
+        return exTaxDue;
+    }
+
+    public double calculateTaxOverdue() {
+        taxOverdue = 0;
+
+        for (Tax tax : taxes) {
+            //compound tax due for every year it is not paid
+            double tempTax = 0;
+            int yearsNotPaid = LocalDate.now().getYear() - tax.getYearDue();
+
+            if (yearsNotPaid > 0) { //avoids recalculating tax from current year
+                tempTax = tax.taxDue;
+
+                for (int year = 0; year < yearsNotPaid; year++) {
+                    tempTax *= 1.07;
+                }
+            }
+
+            taxOverdue += tempTax;
+        }
+        return taxOverdue;
     }
 
     public double getBalance() {
-        return taxDue;
+        return exTaxDue + taxOverdue;
     }
 
     public String format() {
@@ -82,8 +142,13 @@ public class Property {
     }
 
     public void addPayment(PropertyOwner Owner, int year, double amount) {
-        taxDue -= amount;
-        payments.add(new Payment(owner, this, year, amount, taxDue));
+        if (year == LocalDate.now().getYear()) {
+            exTaxDue -= amount;
+        } else {
+            taxOverdue -= amount;
+        }
+
+        payments.add(new Payment(owner, this, year, amount, getBalance()));
     }
 
     public Address getAddress() {
@@ -93,9 +158,51 @@ public class Property {
     public ArrayList<Payment> getPayments() {
         return payments;
     }
+
+    public ArrayList<Tax> getTaxes() {
+        return taxes;
+    }
     
     @Override
     public String toString() {
     	return "Address: "+address.toString()+", "+this.eircode;
+    }
+
+    public void taxPaid(int year, double amount) {
+        for (Tax tax : taxes) {
+            if (tax.getYearDue() == year) {
+                tax.taxPaid(amount);
+                tax.yearPaid = LocalDate.now().getYear();
+                break;
+            }
+        }
+    }
+
+    public ArrayList<Tax> getAllTaxUnpaid() {
+        ArrayList<Tax> temp = new ArrayList<>();
+
+        for (Tax tax : taxes) {
+            if (!tax.paid) {
+                temp.add(tax);
+            }
+        }
+
+        return temp;
+    }
+
+    public ArrayList<Tax> getAllTaxUnpaid(int year) {
+        ArrayList<Tax> temp = new ArrayList<>();
+
+        for (Tax tax : taxes) {
+            if ((tax.yearDue == year) && (tax.yearPaid > year)) {
+                temp.add(tax);
+            }
+        }
+
+        return temp;
+    }
+
+    public String getEircode() {
+        return eircode;
     }
 }
