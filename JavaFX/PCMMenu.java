@@ -3,6 +3,7 @@ package application;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
@@ -13,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -78,6 +80,7 @@ public class PCMMenu extends Application {
 	class LogoPaneAndTitleBar extends HBox{
 		public LogoPaneAndTitleBar(BorderPane pane) {
 		
+
 			FileInputStream input=null;
 			try {
 				input = new FileInputStream("resources/logo.png");
@@ -88,16 +91,23 @@ public class PCMMenu extends Application {
 			ImageView imageView = new ImageView(image);
 			imageView.setFitHeight(100);
 			imageView.setFitWidth(225);
+			HBox hboxImage = new HBox();
+			hboxImage.getChildren().add(imageView);
 			
-			Text heading = new Text("Management Dashboard");
+			Text heading = new Text("PCM Menu");
 			heading.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 35));
 			heading.setTextAlignment(TextAlignment.CENTER);
-			heading.setTranslateY(25);
+			
 			heading.setFill(Color.DARKOLIVEGREEN);
+			HBox hboxText = new HBox();
+			hboxText.setPadding(new Insets(25,20,20,20));
+			hboxText.getChildren().add(heading);
+			
 			setStyle("-fx-background-color: #C0D9AF");
-			setSpacing(250);
-			getChildren().addAll(imageView, heading);
-
+			HBox.setHgrow(hboxText, Priority.ALWAYS);
+			
+			getChildren().addAll(hboxText, hboxImage);
+			
 	    
 		} 
 	}
