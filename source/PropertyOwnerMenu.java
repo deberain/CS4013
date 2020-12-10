@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -5,8 +6,16 @@ public class PropertyOwnerMenu {
     Scanner scan = new Scanner(System.in);
     PropertyOwnersList owners = new PropertyOwnersList();
     PropertyOwner propOwner;
+
+    //READ IN DATA HERE
+
+    int yearTaxLastCalculated = 2019;
+
     public void run() {
-        
+        if (LocalDate.now().getYear() > yearTaxLastCalculated) {
+            owners.calculateAllTax();
+            yearTaxLastCalculated = LocalDate.now().getYear();
+        }
         
         System.out.println("Are you already a registered owner (Yes/No):");
         if(scan.nextLine().contentEquals("Yes")) {
@@ -52,35 +61,49 @@ public class PropertyOwnerMenu {
                 System.out.println("The property has been registered.");
                 
             }else if(command.equals("P")) {
-            	propOwner.calculateTax();
             	if(propOwner.getTaxDue() == 0){
             		System.out.println("No tax due at the moment.");
             	}else {
             		boolean anotherProp = true;
+
+                    System.out.println("You owe a total of €"+propOwner.getTaxDue());
+                    ArrayList<Property> propsToPayTaxOn = propOwner.displayProperties();
+
             		while(anotherProp) {
-            			anotherProp=false;
-	            		System.out.println("You owe a total of €"+propOwner.getTaxDue());
-	            		ArrayList<Property> propsToPayTaxOn = propOwner.displayProperties();
 	            		System.out.println("Select which property you wish to pay tax on:");
 	            		Property selectedProp = getPropChoice(propsToPayTaxOn);
-	            		System.out.println("You owe a total of "+selectedProp.getBalance()+" on this property.");
-	            		System.out.println("Do you wish to pay now (Yes/No)?");
-	            		String answer = scan.nextLine();
-	            		if(answer.contentEquals("yes")) {
-	            			propOwner.payTax(selectedProp.getBalance(), selectedProp, /*year*/);
-	            			System.out.println("Paying...");
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
+
+	            		if (selectedProp.getBalance() > 0) {
+                            System.out.println("You owe a total of "+selectedProp.getBalance()+" on this property.");
+                            System.out.println("Do you wish to pay now (Yes/No)?");
+                            String answer = scan.nextLine();
+
+                            if(answer.equalsIgnoreCase("yes")) {
+                                System.out.println("Select Year of which you would like to pay tax: ");
+                                Tax selectedTaxYear = getTaxChoice(propOwner.getAllUnpaidTaxes());
+
+                                propOwner.payTax(selectedTaxYear.getCurrentValue(), selectedProp, selectedTaxYear.yearDue);
+                                System.out.println("Paying...");
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                System.out.println("Tax value of " + selectedTaxYear.getCurrentValue() + " paid for " + selectedTaxYear.yearDue);
                             }
-                            System.out.println("You are up to date on tax for this property.");
-	            		}if(propOwner.getTaxDue() > 0) {
+                        } else {
+                            System.out.println("You have no tax currently due for this property!");
+                        }
+
+	            		if(propOwner.getTaxDue() > 0) {
 	            			System.out.println("Do you wish to pay tax on another property (Yes/No):");
-	            			if(scan.nextLine().contentEquals("Yes")) {
-	            				anotherProp = true;
+	            			if(scan.nextLine().equalsIgnoreCase("No")) {
+	            				anotherProp = false;
 	            			}
-	            		}
+	            		} else {
+                            System.out.println("You have paid all tax due for the current year!");
+                            anotherProp = false;
+                        }
             		}
             	}
             }else if (command.equals("V")) {
@@ -88,6 +111,8 @@ public class PropertyOwnerMenu {
                 System.out.println(propOwner.propsAndTaxFormated());
             }else if (command.equals("S")) {
                 //to be done once "year" sorted.
+                propOwner.displayPropBalancesByYear();
+
             }else if (command.equals("G")) {
                 //get past payments made
             	for(Payment payed:propOwner.getPayments()) {
@@ -120,6 +145,22 @@ public class PropertyOwnerMenu {
         {
             char c = 'A';
             for (Property choice : choices)
+            {
+                System.out.println(c + ") " + choice.format());
+                c++;
+            }
+            String input = scan.nextLine();
+            int n = input.toUpperCase().charAt(0) - 'A';
+            if (0 <= n && n < choices.size())
+                return choices.get(n);
+        }
+    }
+
+    private Tax getTaxChoice (ArrayList<Tax> choices) {
+        if (choices.size() == 0) return null;
+        while(true) {
+            char c = 'A';
+            for (Tax choice : choices)
             {
                 System.out.println(c + ") " + choice.format());
                 c++;
