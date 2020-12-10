@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -49,7 +50,7 @@ public class ManagementDashboard extends Application {
 	    // Create a scene and place it in the stage
 	    Rectangle2D r = Screen.getPrimary().getBounds();
 	    Scene scene = new Scene(pane, r.getWidth()-200, r.getHeight()-200);
-	    primaryStage.setTitle("Management Dashboard"); // Set the stage title
+	    primaryStage.setTitle("Owner Dashboard"); // Set the stage title
 	    primaryStage.setScene(scene); // Place the scene in the stage
 	    primaryStage.show(); // Display the stage
 	  }
@@ -119,15 +120,23 @@ public class ManagementDashboard extends Application {
 			ImageView imageView = new ImageView(image);
 			imageView.setFitHeight(100);
 			imageView.setFitWidth(225);
+			HBox hboxImage = new HBox();
+			hboxImage.getChildren().add(imageView);
 			
 			Text heading = new Text("Management Dashboard");
 			heading.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 35));
 			heading.setTextAlignment(TextAlignment.CENTER);
-			heading.setTranslateY(25);
+			
 			heading.setFill(Color.DARKOLIVEGREEN);
+			HBox hboxText = new HBox();
+			hboxText.setPadding(new Insets(25,20,20,20));
+			hboxText.getChildren().add(heading);
+			
 			setStyle("-fx-background-color: #C0D9AF");
-			setSpacing(375);
-			getChildren().addAll(imageView, heading);
+			HBox.setHgrow(hboxText, Priority.ALWAYS);
+			
+			getChildren().addAll(hboxText, hboxImage);
+			
 
 	    
 		} 
