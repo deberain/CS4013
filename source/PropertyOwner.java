@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class PropertyOwner {
@@ -6,8 +7,8 @@ public class PropertyOwner {
     private String eircode;
     private ArrayList<Property> properties;
     private ArrayList<Payment> payments;
-    private double taxDue;
-    private double taxOverdue;
+    private double taxDue = 0;
+    private double taxOverdue = 0;
 
     public PropertyOwner() {
         properties = new ArrayList<>();
@@ -28,9 +29,16 @@ public class PropertyOwner {
     }
 
     public void payTax(double amount, Property property, int year) {
-        taxDue -= amount;
-        payments.add(new Payment(this, property, year, amount, taxDue));
+        if (year == LocalDate.now().getYear()) {
+            taxDue -= amount;
+        } else {
+            taxOverdue -= amount;
+        }
+
+        payments.add(new Payment(this, property, year, amount, getTaxDue()));
         property.addPayment(this, year, amount);
+        property.taxPaid(year, amount);
+
     }
     
 
@@ -45,29 +53,20 @@ public class PropertyOwner {
     	return propsWithTaxToPay;
     }
 
-    public double getBalance(int year) {
-        for (int i = payments.size()-1; i >= 0; i--) {
-            if (payments.get(i).getYear() == year ) {
-                return payments.get(i).getBalance();
-            }
-        }
-        return -1;
-    }
-
-    public double getBalance(Property p) {
-        return p.getBalance();
-    }
-
     public void calculateTax() {
-        if (taxDue > 0) {
-            taxOverdue = taxDue;
-            taxDue = 0;
-        }
+        //calculate tax for current year from all owned properties
+        taxDue = 0;
 
         for (Property property : properties) {
             taxDue += property.calculateTax();
         }
-        taxDue += taxOverdue;
+
+        //calculate tax overdue from previous years
+        taxOverdue = 0;
+
+        for (Property property : properties) {
+            taxOverdue += property.calculateTaxOverdue();
+        }
     }
 
     public String getName() {
@@ -75,7 +74,7 @@ public class PropertyOwner {
     }
 
     public double getTaxDue() {
-        return taxDue;
+        return taxDue + taxOverdue;
     }
 
     public ArrayList<Property> getProperties() {
@@ -84,6 +83,36 @@ public class PropertyOwner {
 
     public ArrayList<Payment> getPayments() {
         return payments;
+    }
+
+    public ArrayList<Tax> getAllTaxes() {
+        ArrayList<Tax> temp = new ArrayList<>();
+
+        for (Property property : properties) {
+            temp.addAll(property.getTaxes());
+        }
+
+        return temp;
+    }
+
+    public ArrayList<Tax> getAllUnpaidTaxes() {
+        ArrayList<Tax> temp = new ArrayList<>();
+
+        for (Property property : properties) {
+            temp.addAll(property.getAllTaxUnpaid());
+        }
+
+        return temp;
+    }
+
+    public ArrayList<Tax> getAllUnpaidTaxes(int year) {
+        ArrayList<Tax> temp = new ArrayList<>();
+
+        for (Property property : properties) {
+            temp.addAll(property.getAllTaxUnpaid(year));
+        }
+
+        return temp;
     }
 
     public String format() {
@@ -110,6 +139,17 @@ public class PropertyOwner {
     		returnVal = returnVal.concat(prop.toString()+": "+prop.getBalance()+"\n"); 
     	}
     	return returnVal;
+    }
+
+    public void displayPropBalancesByYear() {
+        for (Property property : properties) {
+            System.out.println("Property: " + property.format());
+
+            for (Tax tax : property.getTaxes()) {
+                System.out.println(tax);
+            }
+
+        }
     }
 
 }
