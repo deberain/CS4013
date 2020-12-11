@@ -2,20 +2,34 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * 
+ * Class created to represent the Command Line Interface for the Management Menu
+ * 
+ * Author: Jonathan Falvey
+ * 
+ */
 public class ManagementMenu {
     Scanner scan = new Scanner(System.in);
     PropertyOwnersList owners = new PropertyOwnersList();
-    
+
     //READ IN DATA HERE
-    
+
     int yearTaxLastCalculated = 2019;
-    
+
+    /**
+     * 
+     * Method that loops while user issues different commands
+     * 
+     * Author: Jonathan Falvey
+     * 
+     */
     public void run() {
         if (LocalDate.now().getYear() > yearTaxLastCalculated) {
             owners.calculateAllTax();
             yearTaxLastCalculated = LocalDate.now().getYear();
         }
-        
+
         boolean more = true;
 
         while(more) {
@@ -87,6 +101,15 @@ public class ManagementMenu {
 
     }
 
+    /**
+     * 
+     * Method for user to choose a property from a list of available options
+     * 
+     * Author: Jonathan Falvey
+     * 
+     * @param choices the arraylist to fetch options from
+     * @return returns the property the user has chosen
+     */
     private Property getPropertyChoice(ArrayList<Property> choices)
     {
         if (choices.size() == 0) return null;
@@ -105,6 +128,15 @@ public class ManagementMenu {
         }
     }
 
+    /**
+     * 
+     * Method for user to choose a Property Owner from a list of available options
+     * 
+     * Author: Jonathan Falvey
+     * 
+     * @param choices an arraylist containing all the options
+     * @return returns the owner chosen by the user
+     */
     private PropertyOwner getOwnerChoice(ArrayList<PropertyOwner> choices)
     {
         if (choices.size() == 0) return null;
