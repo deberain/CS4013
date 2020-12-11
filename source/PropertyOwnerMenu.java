@@ -2,6 +2,13 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ *
+ * Class created to represent the Command Line Interface for the Property Owner menu
+ *
+ * Author: Bryan Carty
+ *
+ */
 public class PropertyOwnerMenu {
     Scanner scan = new Scanner(System.in);
     PropertyOwnersList owners = new PropertyOwnersList();
@@ -11,6 +18,11 @@ public class PropertyOwnerMenu {
 
     int yearTaxLastCalculated = 2019;
 
+    /**
+     *
+     * Method that loops while user issues commands
+     *
+     */
     public void run() {
         if (LocalDate.now().getYear() > yearTaxLastCalculated) {
             owners.calculateAllTax();
@@ -124,8 +136,15 @@ public class PropertyOwnerMenu {
         }
 
     }
-    
-    
+
+    /**
+     *
+     * Method to determine who is accessing the interface
+     *
+     * Author: Bryan Carty
+     *
+     * @return returns the correct user from the list of Property owners
+     */
     private PropertyOwner getOwner() {
     	System.out.println("Enter Identification details:\nName:\n");
     	String name = scan.nextLine();
@@ -137,7 +156,14 @@ public class PropertyOwnerMenu {
     	PropertyOwner propOwner = owners.getPropOwner(name, findAddress, eircode);
     	return propOwner;
     }
-    
+
+    /**
+     *
+     * Method for user to choose a property from a list of available options
+     *
+     * @param choices arraylist of properties to choose from
+     * @return returns the property selected by the user
+     */
     private Property getPropChoice(ArrayList<Property> choices)
     {
         if (choices.size() == 0) return null;
@@ -156,6 +182,13 @@ public class PropertyOwnerMenu {
         }
     }
 
+    /**
+     *
+     * Method for user to choose a Tax from a list of available options
+     *
+     * @param choices arraylist of taxes to choose from
+     * @return returns the tax chosen by the user
+     */
     private Tax getTaxChoice (ArrayList<Tax> choices) {
         if (choices.size() == 0) return null;
         while(true) {
