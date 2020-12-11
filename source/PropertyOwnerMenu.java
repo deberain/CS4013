@@ -186,6 +186,8 @@ public class PropertyOwnerMenu {
      *
      * Method for user to choose a Tax from a list of available options
      *
+     * Author: Bryan Carty
+     *
      * @param choices arraylist of taxes to choose from
      * @return returns the tax chosen by the user
      */
