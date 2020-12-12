@@ -40,7 +40,6 @@ public class PCMMenu extends Application {
 	    pane.setTop(new LogoPaneAndTitleBar(pane));
 	    pane.setCenter(new MainPaneMenu()); 
 	   
-	    
 	    // Create a scene and place it in the stage
 	    Rectangle2D r = Screen.getPrimary().getBounds();
 	    Scene scene = new Scene(pane, r.getWidth()-200, r.getHeight()-200);
@@ -105,8 +104,6 @@ public class PCMMenu extends Application {
 			HBox.setHgrow(hboxText, Priority.ALWAYS);
 			
 			getChildren().addAll(hboxText, hboxImage);
-			
-	    
 		} 
 	}
 	
