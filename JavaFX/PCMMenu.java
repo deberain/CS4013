@@ -23,17 +23,16 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-
 public class PCMMenu extends Application {
-	
-	
-    public static void main(String[] args) {
+	public static Stage primaryStage;
+
+	public static void main(String[] args) {
         launch(args);
     }
 	
-	
 	@Override
 	public void start(Stage primaryStage) {
+		PCMMenu.primaryStage = primaryStage;
 		
 		BorderPane pane = new BorderPane();
 
@@ -68,19 +67,18 @@ public class PCMMenu extends Application {
 		b2.setPrefWidth(300);
 		getChildren().addAll(text, b1, b2);
 		setAlignment(Pos.CENTER);
-		
-		
-	  }
-		
+		RegisteredOwner regedOwner = new RegisteredOwner();
+		Scene regedOwnerScene = regedOwner.getScene();
+		ManagementDashboard managementDashboard = new ManagementDashboard();
+		Scene managementDashboardScene = managementDashboard.getManagementDashboardScene();
+		b1.setOnAction(e -> PCMMenu.primaryStage.setScene(regedOwnerScene));
+		b2.setOnAction(e -> PCMMenu.primaryStage.setScene(managementDashboardScene));
+	  }	
 	}	
 		
 		
-	
-	
 	class LogoPaneAndTitleBar extends HBox{
 		public LogoPaneAndTitleBar(BorderPane pane) {
-		
-
 			FileInputStream input=null;
 			try {
 				input = new FileInputStream("resources/logo.png");
@@ -111,4 +109,6 @@ public class PCMMenu extends Application {
 	    
 		} 
 	}
-
+	
+	
+	
