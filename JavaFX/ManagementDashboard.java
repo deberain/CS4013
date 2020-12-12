@@ -2,13 +2,11 @@ package application;
 	
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.geometry.Side;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,17 +26,9 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
-
-public class ManagementDashboard extends Application {
+public class ManagementDashboard{
 	
-	
-    public static void main(String[] args) {
-        launch(args);
-    }
-	
-	
-	@Override
-	public void start(Stage primaryStage) {
+	public Scene getManagementDashboardScene() {
 		
 		BorderPane pane = new BorderPane();
 
@@ -50,9 +40,7 @@ public class ManagementDashboard extends Application {
 	    // Create a scene and place it in the stage
 	    Rectangle2D r = Screen.getPrimary().getBounds();
 	    Scene scene = new Scene(pane, r.getWidth()-200, r.getHeight()-200);
-	    primaryStage.setTitle("Owner Dashboard"); // Set the stage title
-	    primaryStage.setScene(scene); // Place the scene in the stage
-	    primaryStage.show(); // Display the stage
+	    return scene;
 	  }
 	} 
 
@@ -69,10 +57,6 @@ public class ManagementDashboard extends Application {
 		
 	class SideMenuM extends VBox{
 		public SideMenuM() {
-		
-		
-		
-		
 		
 		setStyle("-fx-background-color: #C0D9AF");	
 			
