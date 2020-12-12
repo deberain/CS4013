@@ -51,6 +51,7 @@ public class PCMMenu extends Application {
 
 	
 	class MainPaneMenu extends VBox {
+
 	  public MainPaneMenu() {
 	    setStyle("-fx-background-color: #E0EEE0");
 		setSpacing(125); // 5 is the spacing between elements in the VBox
