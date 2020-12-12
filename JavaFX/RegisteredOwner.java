@@ -2,12 +2,10 @@ package application;
 	
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -25,7 +23,6 @@ import javafx.scene.text.TextAlignment;
 
 
 public class RegisteredOwner{
-
 	
 	public Scene getScene() {
 		BorderPane pane = new BorderPane();
