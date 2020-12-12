@@ -5,20 +5,19 @@ import java.io.FileNotFoundException;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
-import javafx.geometry.Side;
+
 import javafx.stage.Screen;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
+
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -88,12 +87,18 @@ public class OwnerMenuLoginRegister{
 			getChildren().addAll(name,nameInput,address,addressInput,eircode,eircodeInput, buttonReg);
 		}
 		buttonLogin.setOnAction(e ->{
-			//also take in input data and send to relevant class
+			String ownername = nameInput.getText();
+			String ownerAddress = addressInput.getText();
+			String ownerEircode = eircodeInput.getText();
+			//find user using above strings and other classes and set a private static variable loggedInOwner in ownerDashboard.
 			OwnerDashboard oDash = new OwnerDashboard();
 			PCMMenu.primaryStage.setScene(oDash.getOwnerMenuScene());
 		});
 		buttonReg.setOnAction(e ->{
-			//also take in input data and send to relevant class
+			String ownername = nameInput.getText();
+			String ownerAddress = addressInput.getText();
+			String ownerEircode = eircodeInput.getText();
+			//register user using above strings and other classes and set a private static variable loggedInOwner in ownerDashboard.
 			OwnerDashboard oDash = new OwnerDashboard();
 			PCMMenu.primaryStage.setScene(oDash.getOwnerMenuScene());
 		});
@@ -101,47 +106,6 @@ public class OwnerMenuLoginRegister{
 	  }
 		
 	}	
-		
-		
-	class SideMenu extends VBox{
-		public SideMenu() {
-		setStyle("-fx-background-color: #C0D9AF");	
-			
-		Button regProp = new Button("Register Property");
-		regProp.setPrefWidth(200);
-		regProp.setAlignment(Pos.CENTER_LEFT);
-		regProp.setStyle("-fx-font-weight: bold;");
-		
-		Button payTax = new Button("Pay Tax");
-		payTax.setPrefWidth(200);
-		payTax.setAlignment(Pos.CENTER_LEFT);
-		payTax.setStyle("-fx-font-weight: bold;");
-		
-		Button viewDueTax = new Button("View Tax Due");
-		viewDueTax.setPrefWidth(200);
-		viewDueTax.setAlignment(Pos.CENTER_LEFT);
-		viewDueTax.setStyle("-fx-font-weight: bold;");
-		
-		Button paymentsMade = new Button("Payments Made");
-		paymentsMade.setPrefWidth(200);
-		paymentsMade.setAlignment(Pos.CENTER_LEFT);
-		paymentsMade.setStyle("-fx-font-weight: bold;");
-		
-		MenuButton pastStat = new MenuButton("View Past Statements");
-	    pastStat.setPrefWidth(200);
-	    pastStat.setPopupSide(Side.RIGHT);
-	    pastStat.getItems().addAll(new MenuItem("By Year"), new MenuItem("By Property"));
-	    pastStat.setStyle("-fx-font-weight: bold;");
-		
-		Button quit = new Button("Quit");
-		quit.setPrefWidth(200);
-		quit.setAlignment(Pos.CENTER_LEFT);
-		quit.setStyle("-fx-font-weight: bold;");
-		
-		getChildren().addAll(regProp, payTax, viewDueTax, paymentsMade, pastStat, quit);
-		
-		} 	
-	}
 	
 	class LogoPaneAndTitle extends HBox{
 		public LogoPaneAndTitle() {
