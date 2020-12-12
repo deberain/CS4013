@@ -16,7 +16,7 @@ public class PropertyOwnerMenu {
     PropertyOwner propOwner;
 
     //READ IN DATA HERE
-    String pathToSampleData = "..\\resources\\data.csv";
+    String pathToSampleData = "..\\resources\\sampleData.csv";
     File sampleData = new File(pathToSampleData);
 
     String pathToWorkingData = "..\\resources\\workingData.csv";
