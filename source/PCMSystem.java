@@ -1,8 +1,16 @@
+import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * 
+ * Main Class that initialises the entire System
+ * 
+ * Author: Jonathan Falvey
+ * 
+ */
 public class PCMSystem {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scan = new Scanner(System.in);
         System.out.println("Select: P)roperty owner     M)anagement     Q)uit");
         boolean more = true;
@@ -20,10 +28,9 @@ public class PCMSystem {
                 manmenu.run();
             } else if (command.equals("Q")) {
                 more = false;
+                scan.close();
             }
         }
-
-
 
     }
 }
