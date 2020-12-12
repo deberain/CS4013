@@ -150,7 +150,19 @@ public class OwnerDashboard{
 				String estMarValueInput = estMarValInput.getText();
 				String propLoc = propLocCatInput.getText();
 				String ppr = pPRInput.getText();
-				//send above values to appropriate method and return result if any to be put in a VBox and output on screen.
+				boolean principlePrivateResidence = false;
+				if(ppr.toLowerCase().contentEquals("yes")) {
+					principlePrivateResidence = true;
+				}
+				
+				String[] propAddressSplit = propertyAddress.split(" ");
+				
+				PropertyOwnerMenu oMenu = MainPane.oMenu;
+				PropertyOwnersList oList = oMenu.getOwnersList();
+				oList.registerProperty(oMenu.getPropOwner(), new Address(propAddressSplit[0], propAddressSplit[1], propAddressSplit[2]),propertyEircode, Double.parseDouble(estMarValueInput), propLoc, principlePrivateResidence);
+				
+				//sent above values to appropriate method and return result if any to be put in a VBox and output on screen.
+			
 			});
 		});
 		
