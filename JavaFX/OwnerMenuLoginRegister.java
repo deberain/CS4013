@@ -2,6 +2,8 @@ package application;
 	
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -51,17 +53,27 @@ public class OwnerMenuLoginRegister{
 
 	
 	class MainPane extends VBox {
-	  public MainPane(boolean regOwner) {
+		
+		
+		public static PropertyOwnerMenu oMenu;
+
+		public MainPane(boolean regOwner) {
 		  setAlignment(Pos.CENTER);
 		  setStyle("-fx-background-color: #E0EEE0");
 		  setSpacing(25);
 		  setPadding(new Insets(20,20,20,20));
 		  
-		  Label name = new Label("Name");
+		  	Label name = new Label("Name");
 			name.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
 			TextField nameInput = new TextField();
 			nameInput.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 18));
 			nameInput.setMaxWidth(500);
+			Label password = new Label("Enter Password");
+			password.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
+			TextField passInput = new TextField();
+			passInput.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 18));
+			passInput.setMaxWidth(500);
+			
 			Label address = new Label("Address(street, city, town)");
 			address.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
 			TextField addressInput = new TextField();
@@ -79,18 +91,26 @@ public class OwnerMenuLoginRegister{
 			Button buttonReg = new Button("Register");
 			buttonReg.setMaxWidth(250);
 			buttonReg.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
-			setMargin(buttonReg, new Insets(40,0,0,0));
+			setMargin(buttonReg, new Insets(15,0,0,0));
+		  
 			
 		if(regOwner==true) {
-			getChildren().addAll(name,nameInput,address,addressInput,eircode,eircodeInput, buttonLogin);
+			getChildren().addAll(name,nameInput,password,passInput,buttonLogin);
 		}else if(regOwner==false) {
-			getChildren().addAll(name,nameInput,address,addressInput,eircode,eircodeInput, buttonReg);
+			getChildren().addAll(name,nameInput,address,addressInput,eircode,eircodeInput,password,passInput,buttonReg);
 		}
 		buttonLogin.setOnAction(e ->{
 			String ownername = nameInput.getText();
-			String ownerAddress = addressInput.getText();
-			String ownerEircode = eircodeInput.getText();
-			//find user using above strings and other classes and set a private static variable loggedInOwner in ownerDashboard.
+			String passwordLogin = passInput.getText();
+			
+			//find user using above strings and other classes and set propOwner.
+			
+			try {
+				oMenu = new PropertyOwnerMenu();
+				oMenu.propOwnerLogin(ownername, passwordLogin);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			OwnerDashboard oDash = new OwnerDashboard();
 			PCMMenu.primaryStage.setScene(oDash.getOwnerMenuScene());
 		});
@@ -98,7 +118,16 @@ public class OwnerMenuLoginRegister{
 			String ownername = nameInput.getText();
 			String ownerAddress = addressInput.getText();
 			String ownerEircode = eircodeInput.getText();
-			//register user using above strings and other classes and set a private static variable loggedInOwner in ownerDashboard.
+			String passwordRegister = passInput.getText();
+			PropertyOwnerMenu oMenu;
+			
+			try {
+				oMenu = new PropertyOwnerMenu();
+				oMenu.propOwnerRegister(ownername, ownerAddress, ownerEircode, passwordRegister);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			//register user using above strings and other classes and set a propOwner.
 			OwnerDashboard oDash = new OwnerDashboard();
 			PCMMenu.primaryStage.setScene(oDash.getOwnerMenuScene());
 		});
