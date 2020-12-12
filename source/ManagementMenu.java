@@ -14,7 +14,7 @@ public class ManagementMenu {
     Scanner scan = new Scanner(System.in);
     PropertyOwnersList owners = new PropertyOwnersList();
 
-    String pathToData = "..\\resources\\data.csv";
+    String pathToData = "..\\resources\\sampleData.csv";
     File sampleData = new File(pathToData);
 
     String pathToWorkingData = "..\\resources\\workingData.csv";
