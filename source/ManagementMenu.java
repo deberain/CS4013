@@ -14,16 +14,17 @@ public class ManagementMenu {
     Scanner scan = new Scanner(System.in);
     PropertyOwnersList owners = new PropertyOwnersList();
 
-    String pathToData = "..\\resources\\sampleData.csv";
+    String pathToData = "../resources/sampleData.csv";
     File sampleData = new File(pathToData);
 
-    String pathToWorkingData = "..\\resources\\workingData.csv";
-    FileWriter workingData = new FileWriter(pathToWorkingData);
+    String pathToWorkingData = "../resources/workingData.csv";
+    FileWriter workingData;
 
     int yearTaxLastCalculated;
 
-    public ManagementMenu() throws IOException {
+    public ManagementMenu() {
     }
+    
 
     /**
      *
@@ -59,13 +60,13 @@ public class ManagementMenu {
                 if (command.equals("P")) {
                     System.out.println("Select property: ");
                     Property choice = getPropertyChoice(owners.getAllProperties());
-                    owners.getTaxPaymentData(choice);
+                    System.out.print(owners.getTaxPaymentData(choice));
                 }
                 //user selects to view tax on owner
                 else if (command.equals("O")) {
                     System.out.println("Select property owner: ");
                     PropertyOwner choice = getOwnerChoice(owners.getOwners());
-                    owners.getTaxPaymentData(choice);
+                    System.out.print(owners.getTaxPaymentData(choice));
                 }
             }
             //user selects to view overdue property tax data from a particular year
@@ -77,14 +78,14 @@ public class ManagementMenu {
 
                 //user selects to view data from all owners
                 if (command.equalsIgnoreCase("A")) {
-                    owners.getAllOverdueTax(year);
+                    System.out.print(owners.getAllOverdueTax(year));
                 }
                 //user selects to view data from owners in a particular area
                 else if(command.equalsIgnoreCase("P")) {
                     System.out.println("Enter area to check (eircode format): ");
                     String area = scan.nextLine();
 
-                    owners.getAllOverdueTax(year, area);
+                    System.out.print(owners.getAllOverdueTax(year, area));
                 }
             }
             //user selects to view tax statistics for a particular area
@@ -92,7 +93,7 @@ public class ManagementMenu {
                 System.out.println("Enter area you would like to receive statistics for (eircode format): ");
                 String area =  scan.nextLine();
 
-                System.out.println(owners.getStatistics(area));
+                System.out.print(owners.getStatistics(area));
             }
             //user selects to experiment with custom tax calculation
             else if (command.equals("E")) {
@@ -114,7 +115,7 @@ public class ManagementMenu {
                 System.out.println("Enter a value for Non principle private residence tax: ");
                 double ppr = Double.parseDouble(scan.nextLine());
 
-                owners.compareRevenue(flat, rate1, rate2, rate3, location, ppr);
+                System.out.print(owners.compareRevenue(flat, rate1, rate2, rate3, location, ppr));
             }
             //user selects to quit
             else if (command.equals("Q")) {
@@ -124,6 +125,40 @@ public class ManagementMenu {
         }
 
     }
+    
+    //METHODS FOR USE WITH GUI
+    public String getAllOverdueTax(int year, String area) {
+    	return owners.getAllOverdueTax(year, area);
+    }
+    
+    public String getAllOverdueTax(int year) {
+    	return owners.getAllOverdueTax(year);
+    }
+    
+    public String getStatistics(String area) {
+    	return owners.getStatistics(area);
+    }
+    
+    public String compareRevenue(double flat, double rate1, double rate2, double rate3, String location, double ppr) {
+    	return owners.compareRevenue(flat, rate1, rate2, rate3, location, ppr);
+    }
+    
+    public String getTaxPaymentData(Property choice) {
+    	return owners.getTaxPaymentData(choice);
+    }
+    
+    public String getTaxPaymentData(PropertyOwner choice) {
+    	return owners.getTaxPaymentData(choice);
+    }
+    
+    public ArrayList<Property> getAllProperties() {
+    	return owners.getAllProperties();
+    }
+    
+    public ArrayList<PropertyOwner> getOwners() {
+    	return owners.getOwners();
+    }
+    
 
     /**
      *
@@ -191,7 +226,7 @@ public class ManagementMenu {
      *
      * @throws IOException potential exception if no file is found
      */
-    private void readData() throws IOException {
+    public void readData() throws IOException {
         Scanner reader = new Scanner(sampleData);
         String row;
         PropertyOwner tempOwner = null;
@@ -239,7 +274,12 @@ public class ManagementMenu {
      *
      * @throws FileNotFoundException potential exception if file not found
      */
-    private void writeData() throws FileNotFoundException {
+    public void writeData() throws FileNotFoundException {
+    	try {
+			workingData = new FileWriter(pathToWorkingData);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         PrintWriter out = new PrintWriter(workingData);
 
         out.write("Year," + yearTaxLastCalculated + "\n");
