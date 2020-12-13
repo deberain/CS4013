@@ -234,7 +234,7 @@ public class PropertyOwnersList {
                         "Total tax paid: " + totalTaxPaid + "\n" +
                         "Average Tax paid: " + String.format("%.2f", averageTaxPaid) + "\n" +
                         "Number of property taxes paid: " + numTaxPaid + "\n" +
-                        "Percentage of property taxes paid: " + String.format("%.2f", percentageTaxPaid);
+                        "Percentage of property taxes paid: " + String.format("%.2f", percentageTaxPaid) + "\n";
 
         return stats;
     }
