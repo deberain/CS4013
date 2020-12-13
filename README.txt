@@ -14,4 +14,6 @@ How to compile and run the GUI:
 
 Again, a batch file named "RunPCMMenu.bat" wil do this for you
 
+Please ensure you are using JDK 8 before running this program!
+
 The link to our team's Github page for this project is: https://github.com/JDirac/CS4013
