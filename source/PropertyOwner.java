@@ -283,14 +283,16 @@ public class PropertyOwner {
      * displays yearly taxes grouped by property
      *
      */
-    public void displayPropBalancesByYear() {
+    public String displayPropBalancesByYear() {
+    	String returnVal = "";
         for (Property property : properties) {
-            System.out.println("Property: " + property.format());
+           returnVal += "Property: " + property.format() + "\n";
 
             for (Tax tax : property.getTaxes()) {
-                System.out.println(tax);
+                returnVal += tax;
             }
         }
+        return returnVal;
     }
 
     /**
