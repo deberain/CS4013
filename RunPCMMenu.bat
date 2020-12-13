@@ -1,2 +1,2 @@
-cd source & javac -d ../bin *.java 
+cd source & javac -d ../bin -cp . *.java 
 cd ../bin & java PCMMenu & pause
