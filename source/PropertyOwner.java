@@ -45,6 +45,16 @@ public class PropertyOwner {
         this.eircode = eircode;
         this.password = password;
     }
+    
+    public PropertyOwner(String name, String address, String eircode, String password) {
+        properties = new ArrayList<>();
+        payments = new ArrayList<>();
+        String[] addressParts = address.split(", ");
+        this.name = name;
+        this.address = new Address(addressParts[0],addressParts[1],addressParts[2]);
+        this.eircode = eircode;
+        this.password = password;
+    }
 
     /**
      *
@@ -235,6 +245,10 @@ public class PropertyOwner {
      */
     public String format() {
         return name + ", " + address + ", " + eircode;
+    }
+    
+    public String toString() {
+    	return name;
     }
 
     /**
