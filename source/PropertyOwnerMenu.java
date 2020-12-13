@@ -155,7 +155,7 @@ public class PropertyOwnerMenu {
             }
             //show past year statements selected by user
             else if (command.equals("S")) {
-                propOwner.displayPropBalancesByYear();
+                System.out.print(propOwner.displayPropBalancesByYear());
             }
             //get past payments is selected by the user
             else if (command.equals("G")) {
@@ -317,6 +317,7 @@ public class PropertyOwnerMenu {
         System.out.println("Data Saved! Now exiting");
     }
 
+    //Methods for use with GUI
 	public void registerUser(String name, String address, String eircode, String password) {
 		owners.registerOwner(new PropertyOwner(name, address, eircode, password));
 		
@@ -330,5 +331,8 @@ public class PropertyOwnerMenu {
 		owners.registerProperty(owner, address, propertyEircode, estMarValueInput, propLoc, ppr);
 		
 	}
+	
+	
+
 
 }
