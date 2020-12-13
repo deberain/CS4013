@@ -79,15 +79,16 @@ public class PropertyOwnersList {
      *
      * @param choice property to get data on
      */
-    public void getTaxPaymentData(Property choice) {
+    public String getTaxPaymentData(Property choice) {
+    	String returnVal = "";
         if (choice.getPayments().size() != 0) {
             for (Payment p : choice.getPayments()) {
-                System.out.println(p.propertyFormat());
+                returnVal += p.propertyFormat() + "\n";
             }
         } else {
-            System.out.println("No payment history!");
+            returnVal += "No payment history!" + "\n";
         }
-
+        return returnVal;
     }
 
     /**
@@ -96,15 +97,16 @@ public class PropertyOwnersList {
      *
      * @param choice owner to get data on
      */
-    public void getTaxPaymentData(PropertyOwner choice) {
+    public String getTaxPaymentData(PropertyOwner choice) {
+    	String returnVal = "";
         if (choice.getPayments().size() != 0) {
             for (Payment p : choice.getPayments()) {
-                System.out.println(p.ownerFormat());
+                returnVal += p.ownerFormat() + "\n";
             }
         } else {
-            System.out.println("No payment history!");
+            returnVal += "No payment history!" + "\n";
         }
-
+        return returnVal;
     }
 
     /**
@@ -143,16 +145,19 @@ public class PropertyOwnersList {
      *
      * @param year year to get data from
      */
-    public void getAllOverdueTax(int year) {
+    public String getAllOverdueTax(int year) {
         ArrayList<Tax> taxUnpaidInYear = new ArrayList<>();
+        String returnVal = "";
 
         for (PropertyOwner owner : owners) {
             taxUnpaidInYear.addAll(owner.getAllUnpaidTaxes(year));
         }
 
         for (Tax tax : taxUnpaidInYear) {
-            System.out.println(tax.managementFormat(year));
+            returnVal += tax.managementFormat(year) + "\n";
         }
+        
+        return returnVal;
     }
 
     /**
@@ -162,8 +167,9 @@ public class PropertyOwnersList {
      * @param year year to get data from
      * @param area area to get data from
      */
-    public void getAllOverdueTax(int year, String area) {
+    public String getAllOverdueTax(int year, String area) {
         ArrayList<Tax> taxUnpaidInYear = new ArrayList<>();
+        String returnVal = "";
 
         for (PropertyOwner owner : owners) {
             taxUnpaidInYear.addAll(owner.getAllUnpaidTaxes(year));
@@ -171,9 +177,11 @@ public class PropertyOwnersList {
 
         for (Tax tax : taxUnpaidInYear) {
             if (tax.prop.getEircode().substring(0, area.length()).equalsIgnoreCase(area)) {
-                System.out.println(tax.managementFormat(year));
+                returnVal += tax.managementFormat(year) + "\n";
             }
         }
+        
+        return returnVal;
     }
 
     /**
@@ -242,11 +250,12 @@ public class PropertyOwnersList {
      * @param location string containing individual tax rates for location category tax
      * @param ppr charge for not principle private residence
      */
-    public void compareRevenue(double flat, double rate1, double rate2, double rate3, String location, double ppr) {
+    public String compareRevenue(double flat, double rate1, double rate2, double rate3, String location, double ppr) {
         //create three different sample properties for a decent estimate
         Property example = new Property(400000, "City", false);
         Property example2 = new Property(1000000, "Countryside", true);
         Property example3 = new Property(300000, "Small town", false);
+        String returnVal = "";
 
         //calculate tax for all three sample properties
         double tax1 = example.calculateTax(100, 0.01, 0.02, 0.04, 100, 80, 60, 50, 20, 100);
@@ -267,15 +276,16 @@ public class PropertyOwnersList {
 
         double percentageChange = Math.abs(((experimentalRevenue - currentRevenue) / currentRevenue ) * 100);
 
-        System.out.println("Sample revenue with current tax formula: " + String.format("%.2f",currentRevenue));
-        System.out.println("Sample revenue with experimental tax formula: " + String.format("%.2f",experimentalRevenue));
+        returnVal += "Sample revenue with current tax formula: " + String.format("%.2f",currentRevenue) + "\n";
+        returnVal += "Sample revenue with experimental tax formula: " + String.format("%.2f",experimentalRevenue)+ "\n";
 
         if (experimentalRevenue > currentRevenue) {
-            System.out.println("We can expect a " + String.format("%.2f",percentageChange) +"% increase in revenue with the experimental formula");
+            returnVal += "We can expect a " + String.format("%.2f",percentageChange) +"% increase in revenue with the experimental formula" + "\n";
         } else if (currentRevenue > experimentalRevenue) {
-            System.out.println("We can expect a " + String.format("%.2f",percentageChange) +"% decrease in revenue with the experimental formula");
+            returnVal += "We can expect a " + String.format("%.2f",percentageChange) +"% decrease in revenue with the experimental formula" + "\n";
         } else {
-            System.out.println("The revenue is the same with both formulae");
+            returnVal += "The revenue is the same with both formulae" + "\n";
         }
+        return returnVal;
     }
 }
