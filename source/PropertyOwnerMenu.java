@@ -85,7 +85,7 @@ public class PropertyOwnerMenu {
                 String eircode = scan.nextLine();
 
                 System.out.println("Enter propertys estimated market value:");
-                double estimatedMarketVal = scan.nextDouble();
+                double estimatedMarketVal = Double.parseDouble(scan.nextLine());
 
                 System.out.println("Enter location Category (City/Large town/Small town/village/countryside))");
                 String locCat = scan.nextLine();
