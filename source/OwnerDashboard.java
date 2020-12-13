@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -192,30 +194,52 @@ public class OwnerDashboard{
 			vbox.setSpacing(15);
 			vbox.setPadding(new Insets(20,20,20,20));
 			  
-			boolean propTaxDue = true;//put equal to method that find if tax is due !!!
+			boolean propTaxDue = (loggedIn.getTaxDue() == 0);
 			if(propTaxDue) {
 				Label propsToPayTaxOn = new Label ("Select The property");
 				propsToPayTaxOn.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
-				ChoiceBox<String> propChoice = new ChoiceBox<String>();
-				ArrayList<String> propChoices = new ArrayList<String>();
-				propChoices.add("example prop 1");//use below method in real
-				//propChoices.addAll() - add all the properties that have tax due got from the relavent class.
-				propChoice.getItems().addAll(propChoices);
-				ChoiceBox<String> taxYears = new ChoiceBox<String>();
-				ArrayList<String> taxYearsGotFromRelClass = new ArrayList<String>();
+				
+				ChoiceBox<Property> propChoice = new ChoiceBox<Property>();
+				
+				ObservableList<Property> propChoices = FXCollections.observableArrayList();
+				
+				propChoice.setItems(propChoices);
+				
+				propChoices.addAll(loggedIn.displayProperties());
+				
+				Property chosenProp = propChoice.getValue();
+				
+				ChoiceBox<Tax> taxYears = new ChoiceBox<Tax>();
+				
+				ObservableList<Tax> taxesUnpaid = FXCollections.observableArrayList();
+				
+				taxYears.setItems(taxesUnpaid);
+				
+				taxesUnpaid.addAll(chosenProp.getAllTaxUnpaid());
+				
 				Label taxYearLabel = new Label("Select Year");
 				taxYearLabel.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
-				taxYearsGotFromRelClass.add("Example year");
-				taxYears.getItems().addAll(taxYearsGotFromRelClass);
+				
 				Button payButton = new Button("Pay");
 				payButton.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 15));
 				vbox.getChildren().addAll(propsToPayTaxOn, propChoice, taxYearLabel, taxYears, payButton);
 				oDash.setCenterOfPane(vbox);
 				payButton.setOnAction(b ->{
-					String propertyChosen = propChoice.getValue();
-					String taxYearDue = taxYears.getValue();
+					
+					Tax tax = taxYears.getValue();
 					//send above values to appropriate method and return result if any to be put in a VBox and output on screen.
-
+					loggedIn.payTax(tax.getCurrentValue(), chosenProp, tax.yearDue);
+					vbox.getChildren().clear();
+					Label paying = new Label("Paying...");
+					vbox.getChildren().add(paying);
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                    Label paid = new Label("Tax value of " + String.format("%.2f",tax.getCurrentValue()) + " paid for " + tax.yearDue);
+                    vbox.getChildren().clear();
+                    vbox.getChildren().add(paid);
 				});
 			}else {
 				Label label = new Label("No tax due at the moment");
@@ -237,7 +261,7 @@ public class OwnerDashboard{
 			Label taxDue = new Label("Below is a summary of all tax currently due");
 			taxDue.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			
-			String propsAndTaxFormattedString = "Put equal to the relevant method\nProp1 - details, details, details\nprop2 - dtails. details, details";//put equal to the relevant method.
+			String propsAndTaxFormattedString = loggedIn.propsAndTaxFormated();
 			Text propsAndTaxFormatted = new Text(propsAndTaxFormattedString);
 			propsAndTaxFormatted.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
 			vbox.getChildren().addAll(taxDue, propsAndTaxFormatted);
@@ -257,7 +281,12 @@ public class OwnerDashboard{
 			Label paymentsMadeLabel = new Label("Below is a summary of all payments");
 			paymentsMadeLabel.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			
-			String paymentsFormattedString = "Put equal to the relevant method\npayment1 - details, details, details\npayment2 - dtails. details, details";//put equal to the relevant method.
+			String paymentsFormattedString = "";
+			
+        	for(Payment payed:loggedIn.getPayments()) {
+        		paymentsFormattedString += payed.ownerFormat() + "\n";
+        	}
+			
 			Text paymentsFormatted = new Text(paymentsFormattedString);
 			paymentsFormatted.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
 			vbox.getChildren().addAll(paymentsMadeLabel, paymentsFormatted);
@@ -276,7 +305,7 @@ public class OwnerDashboard{
 		  	Label pastStatLabel = new Label("Below are the past statement details");
 			pastStatLabel.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
 			
-			String pastStatData = "put equal to the relevant method\nstat1 - details, details, details\nstat2 - dtails. details, details";//put equal to the relevant method.
+			String pastStatData = loggedIn.displayPropBalancesByYear();
 			Text pastStatDataFormatted = new Text(pastStatData);
 			pastStatDataFormatted.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 25));
 			vbox.getChildren().addAll(pastStatLabel, pastStatDataFormatted);
