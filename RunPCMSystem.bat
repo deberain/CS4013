@@ -1,1 +1,2 @@
-cd source & chcp 1250 & javac PCMSystem.java ManagementMenu.java PropertyOwnerMenu.java Property.java PropertyOwner.java PropertyOwnersList.java Address.java Payment.java Tax.java & java PCMSystem
+cd source & javac -d ../bin *.java 
+cd ../bin & java PCMMenu & pause
