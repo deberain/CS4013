@@ -289,7 +289,7 @@ public class PropertyOwner {
            returnVal += "Property: " + property.format() + "\n";
 
             for (Tax tax : property.getTaxes()) {
-                returnVal += tax;
+                returnVal += tax + "\n";
             }
         }
         return returnVal;
