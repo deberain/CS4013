@@ -16,15 +16,15 @@ public class PropertyOwnerMenu {
     PropertyOwner propOwner;
 
     //READ IN DATA HERE
-    String pathToSampleData = "..\\resources\\sampleData.csv";
+    String pathToSampleData = "../resources/sampleData.csv";
     File sampleData = new File(pathToSampleData);
 
-    String pathToWorkingData = "..\\resources\\workingData.csv";
-    FileWriter workingData = new FileWriter(pathToWorkingData);
+    String pathToWorkingData = "../resources/workingData.csv";
+    FileWriter workingData;;
 
     int yearTaxLastCalculated;
 
-    public PropertyOwnerMenu() throws IOException {
+    public PropertyOwnerMenu() {
     }
 
     /**
@@ -171,6 +171,11 @@ public class PropertyOwnerMenu {
         }
 
     }
+    
+    public PropertyOwner getLoggedIn(String Name, String password) {
+    	return owners.getPropOwner(Name, password);
+    }
+    
 
     /**
      *
@@ -242,7 +247,7 @@ public class PropertyOwnerMenu {
      *
      * @throws IOException potential exception if no file is found
      */
-    private void readData() throws IOException {
+    public void readData() throws IOException {
         Scanner reader = new Scanner(sampleData);
         String row;
         PropertyOwner tempOwner = null;
@@ -285,10 +290,10 @@ public class PropertyOwnerMenu {
     /**
      *
      * Method that writes important records to a csv file for later use by program
-     *
-     * @throws FileNotFoundException potential exception if file not found
+     * @throws IOException 
      */
-    private void writeData() throws FileNotFoundException {
+    public void writeData() throws IOException {
+    	workingData = new FileWriter(pathToWorkingData);
         PrintWriter out = new PrintWriter(workingData);
 
         out.write("Year," + yearTaxLastCalculated + "\n");
@@ -311,5 +316,19 @@ public class PropertyOwnerMenu {
         out.close();
         System.out.println("Data Saved! Now exiting");
     }
+
+	public void registerUser(String name, String address, String eircode, String password) {
+		owners.registerOwner(new PropertyOwner(name, address, eircode, password));
+		
+	}
+
+	public void registerProperty(PropertyOwner owner, String propertyAddress, String propertyEircode, Double estMarValueInput,
+			String propLoc, boolean ppr) {
+		String[] addr = propertyAddress.split(", ");
+		Address address = new Address(addr[0], addr[1], addr[2]);
+		
+		owners.registerProperty(owner, address, propertyEircode, estMarValueInput, propLoc, ppr);
+		
+	}
 
 }
